@@ -1,50 +1,58 @@
 // import firebase from 'firebase';
 // import { getNotes } from './firebaseReducer';
+import getUser from "../modules/get/getUser";
 import { TInferActions } from "./utils";
+import { createSlice } from '@reduxjs/toolkit';
+import {createWrapper, HYDRATE} from 'next-redux-wrapper';
 
-const LOGIN_IN_GOOGLE = 'LOGIN-IN-GOOGLE'
+export const userReducer = createSlice({
+  name: 'userData',
 
-let initialState = {
-  auth: false,
-  userData: {
-    userName: null,
-    email: null,
-    uid: null,
+  initialState: {
+    firstName: '',
+    lastName: '',
+    birthdate: '',
+    email: '',
+    id: null,
+    auth: false,
   },
-  initialized: false,
-}
 
-const authReducer = (state= initialState, action: TActions ) =>{
-  switch(action.type){
-    case LOGIN_IN_GOOGLE:
-      return {
-        ...state,
-        userData: action.payload,
-        auth: true,
-      }
-    default:
-      return state
-  }}
-  export const actions = {
-    loginInGoogle: (userName: any,email: any,uid: any) =>({type: LOGIN_IN_GOOGLE, payload: {userName,email,uid}}),
-  }
-  type TActions = TInferActions<typeof actions>
-// export const logout = () =>( {type: LOGOUT_GOOGLE})
-// const initializeApp = () =>({type:INITIALIZED_APP})
+  reducers: {
+    userData(state, action) {
+          return {
+            ...state,
+            ...action.payload,
+          };
+    }
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+        // console.log('HYDRATE', state, action.payload);
+        return {
+            ...state,
+            ...action.payload.userData,
+        };
+    },
+},
+});
 
-// export const initializedApp = () =>(dispatch) =>{
-//   firebase.auth().onAuthStateChanged(function(user) {                 // Получение данных пользователя 
-//     if (user) {                                                       // Если пользователь залогинен,
-//       dispatch(actions.loginInGoogle(user.displayName, user.email, user.uid)) // то получаем его данные 
-//       let promise = dispatch(getNotes(store.getState().auth.userData.uid)) 
-//       promise.then(()=>{
-//       dispatch(initializeApp())                                       // и инициализируем приложение
-//   })
-//     } else {  
-//       dispatch(initializeApp())                         //если пользователя нет, то сразу инициализируем приложение
-//     }
-//   });
+export const actions = {
+  login: (
+    id: number| null,
+    firstName: string| null,
+    lastName: string| null,
+    email: string| null,
+    birthdate: string | null
+  ) => ({ payload: { id, firstName, lastName, email, birthdate } } as const),
+};
+
+export type TActions = TInferActions<typeof actions>;
+
+export const userData = (cookie: any) => async (dispatch: any) => {
+  const userDataRes = await getUser(cookie);
+  const { id, firstName, lastName, email, birthdate } = userDataRes;
   
-// }
-
-export default authReducer;
+  if (userDataRes) {
+    dispatch(userReducer.actions.userData({id, firstName, lastName, email, birthdate, auth: true}));
+  }
+};

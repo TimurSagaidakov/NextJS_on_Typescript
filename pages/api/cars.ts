@@ -30,7 +30,6 @@ export default authenticated(async function (
   }
   if (req.method === "DELETE") {
     try {
-      console.log(req.body);
 
       await knexInstance.table("cars").where("id", req.body).del();
       res.status(200);

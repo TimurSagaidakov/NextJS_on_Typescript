@@ -11,6 +11,9 @@ interface User {
   password: string,
   hash: string,
   email: string,
+  first_name: string,
+  last_name: string,
+  birthdate: string,
 }
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -24,13 +27,19 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         if (err) {
           res.status(500)
         }
-        const claims = { sub: data.id, myName: data.name };
-        const jsonwebtoken = sign(claims, JWTtoken, { expiresIn: '1h' });
+        const userData = {
+          id: data.id,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          email: data.email,
+          birthdate: data.birthdate
+        };
+        const jsonwebtoken = sign(userData, JWTtoken, { expiresIn: '10h' });
         res.setHeader('Set-Cookie', cookie.serialize('auth_token', jsonwebtoken, {
           httpOnly: true,
           secure: process.env.NODE_ENV !== 'development',
           sameSite: 'strict',
-          maxAge: 3600,
+          maxAge: 36000,
           path: '/',
         }));
 

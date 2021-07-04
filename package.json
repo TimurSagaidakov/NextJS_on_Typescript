@@ -9,19 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.0",
     "@types/knex": "^0.16.1",
     "bcrypt": "^5.0.1",
     "cookie": "^0.4.1",
-    "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-next": "0.0.0",
     "file-system": "^2.2.2",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.6",
     "next": "11.0.1",
+    "next-redux-wrapper": "^7.0.2",
     "pg": "^8.6.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "sqlite3": "^5.0.2"

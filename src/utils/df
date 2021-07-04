@@ -1,0 +1,24 @@
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
+import {Provider} from 'react-redux'; /* Импорт Provider'a из библиотеки react-redux */
+import { makeStore } from '../redux/redux-store'; /*Импорт БД */
+import withRedux from "next-redux-wrapper";
+import { NextPageContext } from 'next';
+
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <Component {...pageProps} />
+  )
+}
+
+
+MyApp.getInitialProps = (ctx: NextPageContext) => {
+  console.log(ctx);
+  
+  // store?.dispatch({type: 'LOGIN', payload: { id: 5, firstName: 'sdf', lastName: 'sdf00', email: 'fsdf', birtdate: 'sdfsdf' }});
+  // return {custom: 'custom'}; 
+};
+
+// здесь мы берем makeStore и отдаем его обертке
+// @ts-ignore
+export default withRedux(makeStore, (state) => ({userData: state.foo}))(MyApp);

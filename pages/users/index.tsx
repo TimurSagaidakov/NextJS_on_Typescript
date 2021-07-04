@@ -15,6 +15,8 @@ const Users = ({users}: any) => {
 
 Users.getInitialProps = async (ctx: NextPageContext) => {
   const users = await getInitialPropsFromServer(ctx, getUsers);
+
+  
   return {users};
 }
 

@@ -2,7 +2,7 @@ import { authenticated } from "./../../src/utils/authenticated";
 import { NextApiRequest, NextApiResponse } from "next";
 import { knexInstance } from "../../database/connect";
 
-export default authenticated(async function getAllVehicles(
+export default authenticated(async function getUsers(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

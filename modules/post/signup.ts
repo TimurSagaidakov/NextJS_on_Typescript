@@ -1,4 +1,4 @@
-import Login from "../../interfaces/Login";
+import Login from "../../src/interfaces/Login";
 
 export default async (loginData: Login) => {
   try {

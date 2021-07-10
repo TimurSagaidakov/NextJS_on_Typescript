@@ -14,7 +14,9 @@ export const userReducer = createSlice({
     birthdate: '',
     email: '',
     id: null,
+    image: '',
     auth: false,
+    saveUrl: '',
   },
 
   reducers: {
@@ -23,6 +25,18 @@ export const userReducer = createSlice({
             ...state,
             ...action.payload,
           };
+    },
+    saveUrl(state, action) {
+      return {
+        ...state,
+        saveUrl: action.payload
+      }
+    },
+    updateAvatar(state, action) {
+      return {
+        ...state,
+        image: action.payload,
+      }
     }
   },
   extraReducers: {
@@ -50,9 +64,19 @@ export type TActions = TInferActions<typeof actions>;
 
 export const userData = (cookie: any) => async (dispatch: any) => {
   const userDataRes = await getUser(cookie);
-  const { id, firstName, lastName, email, birthdate } = userDataRes;
+  console.log(userDataRes);
+  
+  const { id, first_name: firstName, last_name: lastName, email, birthdate, image } = userDataRes;
   
   if (userDataRes) {
-    dispatch(userReducer.actions.userData({id, firstName, lastName, email, birthdate, auth: true}));
+    dispatch(userReducer.actions.userData({id, firstName, lastName, email, birthdate, image, auth: true}));
   }
 };
+
+export const savePrevUrl = (url: string) => (dispatch:any) => {
+  dispatch(userReducer.actions.saveUrl(url))
+};
+
+export const updateImage = (image: string) => (dispatch: any) => {
+  dispatch(userReducer.actions.updateAvatar(image));
+}

@@ -1,4 +1,4 @@
-import Car from '../../interfaces/Car';
+import Car from "../../src/interfaces/Car";
 
 export default async (carParams: Car) => {
   try {

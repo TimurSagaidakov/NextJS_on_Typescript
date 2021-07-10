@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+}
+
+.preview{
+  margin-right: 35px;
+  &Image {
+    width: 100px;
+    margin-top: 10px;
+  }
+}
+
+.delete {
+  display: inline-block;
+  cursor: pointer;
+}
